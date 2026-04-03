@@ -7,6 +7,6 @@ pkgs.mkShell {
     pkgs.nix-unit
     pkgs.npins
     pkgs.treefmt
-    pkgs.nixfmt
+    pkgs.nixfmt-tree
   ];
 }
