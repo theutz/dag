@@ -4,5 +4,5 @@ help:
 ci:
   nix-unit ./tests.nix
 
-fmt:
-  nixfmt .
+fmt *args:
+  treefmt {{args}}
