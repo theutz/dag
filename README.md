@@ -16,3 +16,19 @@ across a large flake seemed useful. Especially with the ascendency of
 [den](https://den.oeiuwq.com).
 
 ![d'ya like dags?](./assets/dags.gif)
+
+## Usage
+
+```nix
+# flake.nix
+{
+   inputs.dag.url = "github:theutz/dag";
+   outputs = inputs: 
+   let
+     dag = inputs.dag.lib { inherit (inputs.nixpkgs) lib; };
+   in
+   {
+     # use dag API
+   };
+}
+```
