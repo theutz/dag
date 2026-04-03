@@ -2,8 +2,8 @@
   description = "dag";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs";
+    nixpkgs-lib.url = "github:nix-community/nixpkgs.lib";
   };
 
-  outputs = inputs: import ./nix { inherit (inputs.nixpkgs) lib; };
+  outputs = inputs: import ./nix { inherit (inputs.nixpkgs-lib) lib; };
 }
