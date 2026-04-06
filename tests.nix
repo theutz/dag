@@ -19,11 +19,27 @@ in
 
   render.test-outputs-data = {
     expr = dag.render {
-      dag = {
-        greeting = dag.entryAnywhere "# Hello";
-        follow-up = dag.entryAfter [ "greeting" ] "Happy to be here.";
-      };
+      dag.greeting = dag.entryAnywhere "# Hello";
+      dag.follow-up = dag.entryAfter [ "greeting" ] "Happy to be here.";
     };
     expected = "# Hello\nHappy to be here.";
+  };
+
+  render.test-different-separator = {
+    expr = dag.render {
+      dag.greeting = dag.entryAnywhere "# Hello";
+      dag.follow-up = dag.entryAfter [ "greeting" ] "Happy to be here.";
+      separator = "! ";
+    };
+    expected = "# Hello! Happy to be here.";
+  };
+
+  render.test-hm-map-helper = {
+    expr = dag.render {
+      dag.greeting = dag.entryAnywhere "# Hello";
+      dag.follow-up = dag.entryAfter [ "greeting" ] "Happy to be here.";
+      mapEntries = lib.toUpper;
+    };
+    expected = "# HELLO\nHAPPY TO BE HERE.";
   };
 }
