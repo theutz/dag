@@ -330,7 +330,8 @@ rendering.
 
 ## Development
 
-Wanna help out? Great! Clone this, run `nix develop`.
+Wanna help out? Great! Clone this, run `nix develop`, and then `just watch` to
+run tests with every change.
 
 Wanna add a new feature? Great! Be sure to add something in `./tests.nix` and
 then run `just ci`;

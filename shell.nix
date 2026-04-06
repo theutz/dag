@@ -7,5 +7,6 @@ pkgs.mkShell {
     pkgs.nix-unit
     pkgs.treefmt
     pkgs.nixfmt
+    pkgs.watchexec
   ];
 }

@@ -6,3 +6,6 @@ ci:
 
 fmt *args:
   treefmt {{args}}
+
+watch:
+  watchexec -e nix -r -- just ci
