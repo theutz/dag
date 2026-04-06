@@ -119,18 +119,47 @@ This should output `SOMEWHERE OUT THERE OVER THE RAINBOW` anywhere you use
 
 ## API
 
-`dag` only has one method unique to this library: `render`. It was heavily
+`dag` has two main functions: `entry`/`entries` for defining dag entries, and
+`render` for compiling the final output.
+
+There's only has one method unique to this library: `render`. It was heavily
 inspired by the formidable [nvf](https://github.com/NotAShelf/nvf) library for
 configuring Neovim with Nix. All the other APIs are lifted directly from
-[home-manager](https://home-manager.dev).
+[home-manager](https://home-manager.dev). Entry is just a functional wrapper
+around the basic data structure underlying the dag tools.
+
+### `entry`
+
+| attr   | type                    | required | default | description                        |
+| :----- | :---------------------- | :------: | :------ | :--------------------------------- |
+| before | string OR listOf string |    no    | `[]`    | tags this entry must appear before |
+| after  | string OR listOf string |    no    | `[]`    | tags this entry must appear after  |
+| data   | any                     |    no    | `empty` | the final data to render           |
+
+| returns | type    |
+| :------ | :------ |
+| entry   | attrset |
+
+### `entries`
+
+| attr   | type                    | required | default | description                           |
+| :----- | :---------------------- | :------: | :------ | :------------------------------------ |
+| before | string OR listOf string |    no    | `[]`    | tags this entry must appear before    |
+| after  | string OR listOf string |    no    | `[]`    | tags this entry must appear after     |
+| tag    | string                  |   yes    |         | the prefix to use for the entry names |
+| data   | listOf any              |    no    | `[]`    | a list of data to include             |
+
+| returns | type    |
+| :------ | :------ |
+| entry   | attrset |
 
 ### `render`
 
-| attr        | type     | required | default  | description                                                        |
-| :---------- | :------- | :------: | :------- | :----------------------------------------------------------------- |
-| `entries`   | attrset  |   yes    |          | name == tag, value == dag type                                     |
-| `separator` | string   |    no    | `"\n"`   | a string separator for combining outputs                           |
-| `transform` | function |    no    | `lib.id` | a function that is mapped over each string output before rendering |
+| attr        | type                      | required | default  | description                                                        |
+| :---------- | :------------------------ | :------: | :------- | :----------------------------------------------------------------- |
+| `entries`   | attrset OR listof attrset |   yes    |          | a map of names to data, or a list of entries to be merged          |
+| `separator` | string                    |    no    | `"\n"`   | a string separator for combining outputs                           |
+| `transform` | function                  |    no    | `lib.id` | a function that is mapped over each string output before rendering |
 
 | returns          | type   |
 | :--------------- | :----- |

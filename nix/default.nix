@@ -9,7 +9,11 @@ let
       separator ? "\n",
     }:
     let
-      sortedDag = dag'.topoSort entries;
+      sortedDag = lib.pipe entries [
+        lib.toList
+        lib.mergeAttrsList
+        dag'.topoSort
+      ];
       renderedDag =
         if sortedDag ? result then
           lib.pipe sortedDag.result [

@@ -83,4 +83,95 @@ in
     };
     expected = "Somewhere out there over the rainbow";
   };
+
+  entry.before.test-string-deps = {
+    expr = dag.render {
+      entries = {
+        first = dag.entry { data = "foo"; };
+        second = dag.entry {
+          before = "first";
+          data = "bar";
+        };
+      };
+    };
+    expected = "bar\nfoo";
+  };
+
+  entry.before.test-list-deps = {
+    expr = dag.render {
+      entries = {
+        first = dag.entry { data = "foo"; };
+        second = dag.entry {
+          before = "first";
+          data = "bar";
+        };
+      };
+    };
+    expected = "bar\nfoo";
+  };
+
+  entry.before.test-between = {
+    expr = dag.render {
+      entries = {
+        third = dag.entry {
+          data = "baz";
+        };
+        second = dag.entry {
+          before = [ "third" ];
+          after = "first";
+          data = "bar";
+        };
+        first = dag.entry { data = "foo"; };
+      };
+    };
+    expected = "foo\nbar\nbaz";
+  };
+
+  entry.after.test-string-deps = {
+    expr = dag.render {
+      entries = {
+        second = dag.entry {
+          after = "first";
+          data = "bar";
+        };
+        first = dag.entry { data = "foo"; };
+      };
+    };
+    expected = "foo\nbar";
+  };
+
+  entry.after.test-list-deps = {
+    expr = dag.render {
+      entries = {
+        second = dag.entry {
+          after = [ "first" ];
+          data = "bar";
+        };
+        first = dag.entry { data = "foo"; };
+      };
+    };
+    expected = "foo\nbar";
+  };
+
+  entries.before.test-str-deps = {
+    expr = dag.render {
+      entries = [
+        (dag.entries {
+          tag = "second";
+          data = [ "bar" ];
+        })
+        {
+          first = dag.entry {
+            before = "second-0";
+            data = "foo";
+          };
+          third = dag.entry {
+            after = [ "second-0" ];
+            data = "baz";
+          };
+        }
+      ];
+    };
+    expected = "foo\nbar\nbaz";
+  };
 }

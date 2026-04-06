@@ -142,6 +142,23 @@ let
   entriesAnywhere = tag: entriesBetween tag [ ] [ ];
   entriesAfter = tag: entriesBetween tag [ ];
   entriesBefore = tag: before: entriesBetween tag before [ ];
+
+  entry =
+    {
+      after ? [ ],
+      before ? [ ],
+      data ? empty,
+    }:
+    entryBetween (lib.toList before) (lib.toList after) data;
+
+  entries =
+    {
+      after ? [ ],
+      before ? [ ],
+      data ? [ ],
+      tag,
+    }:
+    entriesBetween tag (lib.toList before) (lib.toList after) data;
 in
 {
   inherit
@@ -154,11 +171,13 @@ in
     entryAnywhere
     entryAfter
     entryBefore
+    entry
 
     entriesBetween
     entriesAnywhere
     entriesAfter
     entriesBefore
+    entries
     ;
   map = map';
 }
