@@ -13,8 +13,8 @@ let
       renderedDag =
         if sortedDag ? result then
           lib.pipe sortedDag.result [
-            (map (lib.getAttr "data"))
-            (entries: lib.concatStringsSep separator (map transform entries))
+            (lib.map (lib.getAttr "data"))
+            (data: lib.concatStringsSep separator (lib.map transform data))
           ]
         else
           abort ("Dependency cycle in activation script: " + builtins.toJSON sortedDag);
