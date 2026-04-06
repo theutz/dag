@@ -48,4 +48,16 @@ in
     };
     expected = "# HELLO\nHAPPY TO BE HERE.";
   };
+
+  nabit.test-identity =
+    let
+      thing = {
+        greeting = dag.entryAnywhere "# Hello";
+        follow-up = dag.entryAfter [ "greeting" ] "Happy to be here.";
+      };
+    in
+    {
+      expr = dag.nabit { entries = thing; };
+      expected = dag.render { entries = thing; };
+    };
 }
