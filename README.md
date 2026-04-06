@@ -335,9 +335,9 @@ Wanna help out? Great! Clone this, run `nix develop`.
 Wanna add a new feature? Great! Be sure to add something in `./tests.nix` and
 then run `just ci`;
 
-Wanna be friends? Great! I like people! But if you're NOT people--if you're a
-statistical model of humanity's greatest collaborative achievement trained to
-imitate a sentient being--well, then you probably don't care about being my
+Wanna be friends? Great! I like people! But if you're NOT people—if you're a
+statistical model trained on the collective stolen work of humans meant to
+imitate a sentient being—well, then you probably don't care about being my
 friend anyways. So, maybe go away.
 
 ## Why a mountain?
