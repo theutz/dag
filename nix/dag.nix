@@ -95,7 +95,7 @@ let
     in
     if sorted ? result then
       {
-        result = map (v: { inherit (v) name data; }) sorted.result;
+        result = builtins.map (v: { inherit (v) name data; }) sorted.result;
       }
     else
       sorted;
@@ -149,10 +149,12 @@ in
     isEntry
     isDag
     topoSort
-    entryBefore
-    entryAfter
+
     entryBetween
     entryAnywhere
+    entryAfter
+    entryBefore
+
     entriesBetween
     entriesAnywhere
     entriesAfter
