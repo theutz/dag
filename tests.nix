@@ -17,28 +17,34 @@ in
     expected = true;
   };
 
-  render.test-outputs-data = {
+  render.test-outputs-entries = {
     expr = dag.render {
-      dag.greeting = dag.entryAnywhere "# Hello";
-      dag.follow-up = dag.entryAfter [ "greeting" ] "Happy to be here.";
+      entries = {
+        greeting = dag.entryAnywhere "# Hello";
+        follow-up = dag.entryAfter [ "greeting" ] "Happy to be here.";
+      };
     };
     expected = "# Hello\nHappy to be here.";
   };
 
-  render.test-different-separator = {
+  render.test-separator = {
     expr = dag.render {
-      dag.greeting = dag.entryAnywhere "# Hello";
-      dag.follow-up = dag.entryAfter [ "greeting" ] "Happy to be here.";
+      entries = {
+        greeting = dag.entryAnywhere "# Hello";
+        follow-up = dag.entryAfter [ "greeting" ] "Happy to be here.";
+      };
       separator = "! ";
     };
     expected = "# Hello! Happy to be here.";
   };
 
-  render.test-hm-map-helper = {
+  render.test-transform = {
     expr = dag.render {
-      dag.greeting = dag.entryAnywhere "# Hello";
-      dag.follow-up = dag.entryAfter [ "greeting" ] "Happy to be here.";
-      mapEntries = lib.toUpper;
+      entries = {
+        greeting = dag.entryAnywhere "# Hello";
+        follow-up = dag.entryAfter [ "greeting" ] "Happy to be here.";
+      };
+      transform = lib.toUpper;
     };
     expected = "# HELLO\nHAPPY TO BE HERE.";
   };
