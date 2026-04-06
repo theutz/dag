@@ -139,62 +139,6 @@ configuring Neovim with Nix. All the other APIs are lifted directly from
 _Alias_: `nabit`. Like, "Dag nabit!"... Also, like "Let's nab it!". I like puns.
 Sue me.
 
-### `empty`
-
-| arg | type | required | default | description |
-| :-- | :--- | :------: | :------ | :---------- |
-
-| returns           | type    |
-| :---------------- | :------ |
-| an empty set `{}` | attrset |
-
-### `isEntry`
-
-| arg  | type | required | default | description     |
-| :--- | :--- | :------: | :------ | :-------------- |
-| item | any  |   true   |         | A value to test |
-
-| returns                | type    |
-| :--------------------- | :------ |
-| is item a valid entry? | boolean |
-
-### `isDag`
-
-| arg  | type | required | default | description     |
-| :--- | :--- | :------: | :------ | :-------------- |
-| item | any  |   true   |         | A value to test |
-
-| returns              | type    |
-| :------------------- | :------ |
-| is item a valid dag? | boolean |
-
-### `topoSort`
-
-Low-level handling of DAGs from Home Manager. You probably won't need to use
-this.
-
-| arg     | type    | required | default | description        |
-| :------ | :------ | :------: | :------ | :----------------- |
-| entries | attrset |   true   |         | a dag to be sorted |
-
-| returns                 | type    |
-| :---------------------- | :------ |
-| success/failure objects | attrset |
-
-### `map`
-
-A map function that's DAG-aware, and can be used to transform dag values before
-rendering.
-
-| arg  | type     | required | default | description                                  |
-| :--- | :------- | :------: | :------ | :------------------------------------------- |
-| func | function |   true   |         | a function to apply to each value of the dag |
-| dag  | attrset  |   true   |         | a dag whose values you'd like to transform   |
-
-| returns | type    |
-| :------ | :------ |
-| dag     | attrset |
-
 ### `entryAnywhere`
 
 Create a DAG entry that doesn't care where it lives.
@@ -322,6 +266,67 @@ the dag, instead of assigned to a member of a DAG.
 
 NOTE: The entries will not be processed as `dag` entries. Just add raw data
 here.
+
+## Utility Functions
+
+These little functions also come along with Home Manager's lib, and are included
+here for completeness.
+
+### `empty`
+
+| arg | type | required | default | description |
+| :-- | :--- | :------: | :------ | :---------- |
+
+| returns           | type    |
+| :---------------- | :------ |
+| an empty set `{}` | attrset |
+
+### `isEntry`
+
+| arg  | type | required | default | description     |
+| :--- | :--- | :------: | :------ | :-------------- |
+| item | any  |   true   |         | A value to test |
+
+| returns                | type    |
+| :--------------------- | :------ |
+| is item a valid entry? | boolean |
+
+### `isDag`
+
+| arg  | type | required | default | description     |
+| :--- | :--- | :------: | :------ | :-------------- |
+| item | any  |   true   |         | A value to test |
+
+| returns              | type    |
+| :------------------- | :------ |
+| is item a valid dag? | boolean |
+
+### `topoSort`
+
+Low-level handling of DAGs from Home Manager. You probably won't need to use
+this.
+
+| arg     | type    | required | default | description        |
+| :------ | :------ | :------: | :------ | :----------------- |
+| entries | attrset |   true   |         | a dag to be sorted |
+
+| returns                 | type    |
+| :---------------------- | :------ |
+| success/failure objects | attrset |
+
+### `map`
+
+A map function that's DAG-aware, and can be used to transform dag values before
+rendering.
+
+| arg  | type     | required | default | description                                  |
+| :--- | :------- | :------: | :------ | :------------------------------------------- |
+| func | function |   true   |         | a function to apply to each value of the dag |
+| dag  | attrset  |   true   |         | a dag whose values you'd like to transform   |
+
+| returns | type    |
+| :------ | :------ |
+| dag     | attrset |
 
 ## Why a mountain?
 
