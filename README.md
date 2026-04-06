@@ -145,7 +145,7 @@ Create a DAG entry that doesn't care where it lives.
 
 | arg  | type | required | default | description          |
 | :--- | :--- | :------: | :------ | :------------------- |
-| data | any  |   true   |         | the data for the dag |
+| data | any  |   yes    |         | the data for the dag |
 
 | returns | type    |
 | :------ | :------ |
@@ -157,8 +157,8 @@ Create a DAG entry that must be listed before one or more other entries.
 
 | arg        | type           | required | default | description                              |
 | :--------- | :------------- | :------: | :------ | :--------------------------------------- |
-| beforeTags | listOf strings |   true   |         | tag names that this should appear before |
-| data       | any            |   true   |         | the data for the dag                     |
+| beforeTags | listOf strings |   yes    |         | tag names that this should appear before |
+| data       | any            |   yes    |         | the data for the dag                     |
 
 | returns | type    |
 | :------ | :------ |
@@ -170,8 +170,8 @@ Create a DAG entry that must be listed after one or more other entries.
 
 | arg       | type           | required | default | description                             |
 | :-------- | :------------- | :------: | :------ | :-------------------------------------- |
-| afterTags | listOf strings |   true   |         | tag names that this should appear after |
-| data      | any            |   true   |         | the data for the dag                    |
+| afterTags | listOf strings |   yes    |         | tag names that this should appear after |
+| data      | any            |   yes    |         | the data for the dag                    |
 
 | returns | type    |
 | :------ | :------ |
@@ -183,9 +183,9 @@ Create a DAG entry that must be listed before some entries, but after others.
 
 | arg        | type           | required | default | description                              |
 | :--------- | :------------- | :------: | :------ | :--------------------------------------- |
-| beforeTags | listOf strings |   true   |         | tag names that this should appear before |
-| afterTags  | listOf strings |   true   |         | tag names that this should appear after  |
-| data       | any            |   true   |         | the data for the dag                     |
+| beforeTags | listOf strings |   yes    |         | tag names that this should appear before |
+| afterTags  | listOf strings |   yes    |         | tag names that this should appear after  |
+| data       | any            |   yes    |         | the data for the dag                     |
 
 | returns | type    |
 | :------ | :------ |
@@ -199,8 +199,8 @@ the dag, instead of assigned to a member of a DAG.
 
 | arg  | type       | required | default | description                 |
 | :--- | :--------- | :------: | :------ | :-------------------------- |
-| tag  | string     |   true   |         | tag to prefix to each entry |
-| data | listOf any |   true   |         | a list of data to add       |
+| tag  | string     |   yes    |         | tag to prefix to each entry |
+| data | listOf any |   yes    |         | a list of data to add       |
 
 NOTE: The entries will not be processed as `dag` entries. Just add raw data
 here.
@@ -217,9 +217,9 @@ the dag, instead of assigned to a member of a DAG.
 
 | arg        | type           | required | default | description                               |
 | :--------- | :------------- | :------: | :------ | :---------------------------------------- |
-| tag        | string         |   true   |         | tag to prefix to each entry               |
-| beforeTags | listOf strings |   true   |         | tag names that these should appear before |
-| data       | listOf any     |   true   |         | a list of data to add                     |
+| tag        | string         |   yes    |         | tag to prefix to each entry               |
+| beforeTags | listOf strings |   yes    |         | tag names that these should appear before |
+| data       | listOf any     |   yes    |         | a list of data to add                     |
 
 | returns | type          |
 | :------ | :------------ |
@@ -236,9 +236,9 @@ the dag, instead of assigned to a member of a DAG.
 
 | arg       | type           | required | default | description                              |
 | :-------- | :------------- | :------: | :------ | :--------------------------------------- |
-| tag       | string         |   true   |         | tag to prefix to each entry              |
-| afterTags | listOf strings |   true   |         | tag names that these should appear after |
-| data      | listOf any     |   true   |         | a list of data to add                    |
+| tag       | string         |   yes    |         | tag to prefix to each entry              |
+| afterTags | listOf strings |   yes    |         | tag names that these should appear after |
+| data      | listOf any     |   yes    |         | a list of data to add                    |
 
 | returns | type          |
 | :------ | :------------ |
@@ -255,10 +255,10 @@ the dag, instead of assigned to a member of a DAG.
 
 | arg        | type           | required | default | description                               |
 | :--------- | :------------- | :------: | :------ | :---------------------------------------- |
-| tag        | string         |   true   |         | tag to prefix to each entry               |
-| beforeTags | listOf strings |   true   |         | tag names that these should appear before |
-| afterTags  | listOf strings |   true   |         | tag names that these should appear after  |
-| data       | listOf any     |   true   |         | a list of data to add                     |
+| tag        | string         |   yes    |         | tag to prefix to each entry               |
+| beforeTags | listOf strings |   yes    |         | tag names that these should appear before |
+| afterTags  | listOf strings |   yes    |         | tag names that these should appear after  |
+| data       | listOf any     |   yes    |         | a list of data to add                     |
 
 | returns | type          |
 | :------ | :------------ |
@@ -285,7 +285,7 @@ here for completeness.
 
 | arg  | type | required | default | description     |
 | :--- | :--- | :------: | :------ | :-------------- |
-| item | any  |   true   |         | A value to test |
+| item | any  |   yes    |         | A value to test |
 
 | returns                | type    |
 | :--------------------- | :------ |
@@ -295,7 +295,7 @@ here for completeness.
 
 | arg  | type | required | default | description     |
 | :--- | :--- | :------: | :------ | :-------------- |
-| item | any  |   true   |         | A value to test |
+| item | any  |   yes    |         | A value to test |
 
 | returns              | type    |
 | :------------------- | :------ |
@@ -308,7 +308,7 @@ this.
 
 | arg     | type    | required | default | description        |
 | :------ | :------ | :------: | :------ | :----------------- |
-| entries | attrset |   true   |         | a dag to be sorted |
+| entries | attrset |   yes    |         | a dag to be sorted |
 
 | returns                 | type    |
 | :---------------------- | :------ |
@@ -321,8 +321,8 @@ rendering.
 
 | arg  | type     | required | default | description                                  |
 | :--- | :------- | :------: | :------ | :------------------------------------------- |
-| func | function |   true   |         | a function to apply to each value of the dag |
-| dag  | attrset  |   true   |         | a dag whose values you'd like to transform   |
+| func | function |   yes    |         | a function to apply to each value of the dag |
+| dag  | attrset  |   yes    |         | a dag whose values you'd like to transform   |
 
 | returns | type    |
 | :------ | :------ |
