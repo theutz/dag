@@ -14,18 +14,16 @@ let
     all
     filterAttrs
     head
-    hm
     mapAttrs
     length
     tail
     toposort
     ;
-in
-{
+
   empty = { };
 
   isEntry = e: e ? data && e ? after && e ? before;
-  isDag = dag: builtins.isAttrs dag && all hm.dag.isEntry (builtins.attrValues dag);
+  isDag = dag: builtins.isAttrs dag && all isEntry (builtins.attrValues dag);
 
   # Takes an attribute set containing entries built by entryAnywhere,
   # entryAfter, and entryBefore to a topologically sorted list of
@@ -108,10 +106,10 @@ in
   entryBetween = before: after: data: { inherit data before after; };
 
   # Create a DAG entry with no particular dependency information.
-  entryAnywhere = hm.dag.entryBetween [ ] [ ];
+  entryAnywhere = entryBetween [ ] [ ];
 
-  entryAfter = hm.dag.entryBetween [ ];
-  entryBefore = before: hm.dag.entryBetween before [ ];
+  entryAfter = entryBetween [ ];
+  entryBefore = before: entryBetween before [ ];
 
   # Given a list of entries, this function places them in order within the DAG.
   # Each entry is labeled "${tag}-${entry index}" and other DAG entries can be
@@ -128,20 +126,37 @@ in
           name = "${tag}-${toString i}";
         in
         if entries == [ ] then
-          hm.dag.empty
+          empty
         else if length entries == 1 then
           {
-            "${name}" = hm.dag.entryBetween before after (head entries);
+            "${name}" = entryBetween before after (head entries);
           }
         else
           {
-            "${name}" = hm.dag.entryAfter after (head entries);
+            "${name}" = entryAfter after (head entries);
           }
           // go (i + 1) before [ name ] (tail entries);
     in
     go 0;
 
-  entriesAnywhere = tag: hm.dag.entriesBetween tag [ ] [ ];
-  entriesAfter = tag: hm.dag.entriesBetween tag [ ];
-  entriesBefore = tag: before: hm.dag.entriesBetween tag before [ ];
+  entriesAnywhere = tag: entriesBetween tag [ ] [ ];
+  entriesAfter = tag: entriesBetween tag [ ];
+  entriesBefore = tag: before: entriesBetween tag before [ ];
+in
+{
+  inherit
+    empty
+    isEntry
+    isDag
+    topoSort
+    map
+    entryBefore
+    entryAfter
+    entryBetween
+    entryAnywhere
+    entriesBetween
+    entriesAnywhere
+    entriesAfter
+    entriesBefore
+    ;
 }
