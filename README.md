@@ -68,7 +68,7 @@ access to the `config.flake` freeform attribute.
 
 ### Rendering a DAG
 
-#### 1. Create the entries
+#### 1. Create the entries 🌪️
 
 ```nix
 # somewhere.nix
@@ -96,7 +96,7 @@ access to the `config.flake` freeform attribute.
 }
 ```
 
-#### 2. Render them to a string
+#### 2. Render them to a string 🪄
 
 In a README file or script or whatever.
 
@@ -112,7 +112,7 @@ In a README file or script or whatever.
 }
 ```
 
-#### 3. Enjoy the result!
+#### 3. Enjoy the result! 🌈
 
 This should output `SOMEWHERE OUT THERE OVER THE RAINBOW` anywhere you use
 `config.flake.readme`.
