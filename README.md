@@ -117,6 +117,212 @@ In a README file or script or whatever.
 This should output `SOMEWHERE OUT THERE OVER THE RAINBOW` anywhere you use
 `config.flake.readme`.
 
+## API
+
+`dag` only has one method unique to this library: `render`. It was heavily
+inspired by the formidable [nvf](https://github.com/NotAShelf/nvf) library for
+configuring Neovim with Nix. All the other APIs are lifted directly from
+[home-manager](https://home-manager.dev).
+
+### `render`
+
+| attr        | type     | required | default  | description                                                        |
+| :---------- | :------- | :------: | :------- | :----------------------------------------------------------------- |
+| `entries`   | attrset  |   yes    |          | name == tag, value == dag type                                     |
+| `separator` | string   |    no    | `"\n"`   | a string separator for combining outputs                           |
+| `transform` | function |    no    | `lib.id` | a function that is mapped over each string output before rendering |
+
+| returns          | type   |
+| :--------------- | :----- |
+| the rendered dag | string |
+
+_Alias_: `nabit`. Like, "Dag nabit!"... Also, like "Let's nab it!". I like puns.
+Sue me.
+
+### `empty`
+
+| arg | type | required | default | description |
+| :-- | :--- | :------: | :------ | :---------- |
+
+| returns           | type    |
+| :---------------- | :------ |
+| an empty set `{}` | attrset |
+
+### `isEntry`
+
+| arg  | type | required | default | description     |
+| :--- | :--- | :------: | :------ | :-------------- |
+| item | any  |   true   |         | A value to test |
+
+| returns                | type    |
+| :--------------------- | :------ |
+| is item a valid entry? | boolean |
+
+### `isDag`
+
+| arg  | type | required | default | description     |
+| :--- | :--- | :------: | :------ | :-------------- |
+| item | any  |   true   |         | A value to test |
+
+| returns              | type    |
+| :------------------- | :------ |
+| is item a valid dag? | boolean |
+
+### `topoSort`
+
+Low-level handling of DAGs from Home Manager. You probably won't need to use
+this.
+
+| arg     | type    | required | default | description        |
+| :------ | :------ | :------: | :------ | :----------------- |
+| entries | attrset |   true   |         | a dag to be sorted |
+
+| returns                 | type    |
+| :---------------------- | :------ |
+| success/failure objects | attrset |
+
+### `map`
+
+A map function that's DAG-aware, and can be used to transform dag values before
+rendering.
+
+| arg  | type     | required | default | description                                  |
+| :--- | :------- | :------: | :------ | :------------------------------------------- |
+| func | function |   true   |         | a function to apply to each value of the dag |
+| dag  | attrset  |   true   |         | a dag whose values you'd like to transform   |
+
+| returns | type    |
+| :------ | :------ |
+| dag     | attrset |
+
+### `entryAnywhere`
+
+Create a DAG entry that doesn't care where it lives.
+
+| arg  | type | required | default | description          |
+| :--- | :--- | :------: | :------ | :------------------- |
+| data | any  |   true   |         | the data for the dag |
+
+| returns | type    |
+| :------ | :------ |
+| entry   | attrset |
+
+### `entryBefore`
+
+Create a DAG entry that must be listed before one or more other entries.
+
+| arg        | type           | required | default | description                              |
+| :--------- | :------------- | :------: | :------ | :--------------------------------------- |
+| beforeTags | listOf strings |   true   |         | tag names that this should appear before |
+| data       | any            |   true   |         | the data for the dag                     |
+
+| returns | type    |
+| :------ | :------ |
+| entry   | attrset |
+
+### `entryAfter`
+
+Create a DAG entry that must be listed after one or more other entries.
+
+| arg       | type           | required | default | description                             |
+| :-------- | :------------- | :------: | :------ | :-------------------------------------- |
+| afterTags | listOf strings |   true   |         | tag names that this should appear after |
+| data      | any            |   true   |         | the data for the dag                    |
+
+| returns | type    |
+| :------ | :------ |
+| entry   | attrset |
+
+### `entryBetween`
+
+Create a DAG entry that must be listed before some entries, but after others.
+
+| arg        | type           | required | default | description                              |
+| :--------- | :------------- | :------: | :------ | :--------------------------------------- |
+| beforeTags | listOf strings |   true   |         | tag names that this should appear before |
+| afterTags  | listOf strings |   true   |         | tag names that this should appear after  |
+| data       | any            |   true   |         | the data for the dag                     |
+
+| returns | type    |
+| :------ | :------ |
+| entry   | attrset |
+
+### `entriesAnywhere`
+
+Create multiple DAG entries tagged with `${tag}-${index}`, who don't care where
+they are listed in the main DAG. These must be merged (`//`) with the rest of
+the dag, instead of assigned to a member of a DAG.
+
+| arg  | type       | required | default | description                 |
+| :--- | :--------- | :------: | :------ | :-------------------------- |
+| tag  | string     |   true   |         | tag to prefix to each entry |
+| data | listOf any |   true   |         | a list of data to add       |
+
+NOTE: The entries will not be processed as `dag` entries. Just add raw data
+here.
+
+| returns | type          |
+| :------ | :------------ |
+| dag     | attrsOf entry |
+
+### `entriesBefore`
+
+Create multiple DAG entries tagged with `${tag}-${index}` which must all be
+listed before the specified tags. These must be merged (`//`) with the rest of
+the dag, instead of assigned to a member of a DAG.
+
+| arg        | type           | required | default | description                               |
+| :--------- | :------------- | :------: | :------ | :---------------------------------------- |
+| tag        | string         |   true   |         | tag to prefix to each entry               |
+| beforeTags | listOf strings |   true   |         | tag names that these should appear before |
+| data       | listOf any     |   true   |         | a list of data to add                     |
+
+| returns | type          |
+| :------ | :------------ |
+| dag     | attrsOf entry |
+
+NOTE: The entries will not be processed as `dag` entries. Just add raw data
+here.
+
+### `entriesAfter`
+
+Create multiple DAG entries tagged with `${tag}-${index}` which must all be
+listed after the specified tags. These must be merged (`//`) with the rest of
+the dag, instead of assigned to a member of a DAG.
+
+| arg       | type           | required | default | description                              |
+| :-------- | :------------- | :------: | :------ | :--------------------------------------- |
+| tag       | string         |   true   |         | tag to prefix to each entry              |
+| afterTags | listOf strings |   true   |         | tag names that these should appear after |
+| data      | listOf any     |   true   |         | a list of data to add                    |
+
+| returns | type          |
+| :------ | :------------ |
+| dag     | attrsOf entry |
+
+NOTE: The entries will not be processed as `dag` entries. Just add raw data
+here.
+
+### `entriesBetween`
+
+Create multiple DAG entries tagged with `${tag}-${index}` which must all be
+listed between the specified tags. These must be merged (`//`) with the rest of
+the dag, instead of assigned to a member of a DAG.
+
+| arg        | type           | required | default | description                               |
+| :--------- | :------------- | :------: | :------ | :---------------------------------------- |
+| tag        | string         |   true   |         | tag to prefix to each entry               |
+| beforeTags | listOf strings |   true   |         | tag names that these should appear before |
+| afterTags  | listOf strings |   true   |         | tag names that these should appear after  |
+| data       | listOf any     |   true   |         | a list of data to add                     |
+
+| returns | type          |
+| :------ | :------------ |
+| dag     | attrsOf entry |
+
+NOTE: The entries will not be processed as `dag` entries. Just add raw data
+here.
+
 ## Why a mountain?
 
 _dağ_ is Turkish for _mountain_.
