@@ -101,7 +101,7 @@ let
       sorted;
 
   # Applies a function to each element of the given DAG.
-  map = f: mapAttrs (n: v: v // { data = f n v.data; });
+  map' = f: mapAttrs (n: v: v // { data = f n v.data; });
 
   entryBetween = before: after: data: { inherit data before after; };
 
@@ -149,7 +149,6 @@ in
     isEntry
     isDag
     topoSort
-    map
     entryBefore
     entryAfter
     entryBetween
@@ -159,4 +158,5 @@ in
     entriesAfter
     entriesBefore
     ;
+  map = map';
 }

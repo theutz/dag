@@ -5,14 +5,17 @@ let
   render =
     {
       dag,
-      mapper ? lib.id,
+      mapEntries ? lib.id,
       separator ? "\n",
     }:
     let
       sortedDag = dag'.topoSort dag;
       renderedDag =
         if sortedDag ? result then
-          lib.concatStringsSep separator (map mapper sortedDag.result)
+          lib.pipe sortedDag.result [
+            (map (lib.getAttr "data"))
+            (entries: lib.concatStringsSep separator (map mapEntries entries))
+          ]
         else
           abort ("Dependency cycle in activation script: " + builtins.toJSON sortedDag);
     in
