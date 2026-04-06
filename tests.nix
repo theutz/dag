@@ -60,4 +60,27 @@ in
       expr = dag.nabit { entries = thing; };
       expected = dag.render { entries = thing; };
     };
+
+  readme.test-render = {
+    expr = dag.render {
+      entries = {
+        out = dag.entryAnywhere "out";
+        somewhere = dag.entryBefore [ "out" ] "Somewhere";
+        there =
+          dag.entryBetween
+            [ "otr-0" ]
+            [
+              "out"
+            ]
+            "there";
+      }
+      // (dag.entriesAnywhere "otr" [
+        "over"
+        "the"
+        "rainbow"
+      ]);
+      separator = " ";
+    };
+    expected = "Somewhere out there over the rainbow";
+  };
 }
