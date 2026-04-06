@@ -3,7 +3,8 @@
   pkgs ? import <nixpkgs> { },
 }:
 let
-  dag = import ./. { inherit (pkgs) lib; };
+  inherit (pkgs) lib;
+  dag = import ./. { inherit lib; };
 in
 {
   math-works.test-mult = {
@@ -14,5 +15,15 @@ in
   smoke.test-render-exist = {
     expr = dag ? render;
     expected = true;
+  };
+
+  render.test-outputs-data = {
+    expr = dag.render {
+      dag = {
+        greeting = dag.entryAnywhere "# Hello";
+        follow-up = dag.entryAfter [ "greeting" ] "Happy to be here.";
+      };
+    };
+    expected = "# Hello\nHappy to be here.";
   };
 }
