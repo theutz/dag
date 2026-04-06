@@ -107,7 +107,7 @@ In a README file or script or whatever.
     flake.readme = dag.render {
         entries = config.flake.song; # get entries from flake
         separator = " "; # default separator is "\n"
-        transform = lib.toUpper
+        transform = lib.toUpper; # default is lib.id (no-op)
     };
 }
 ```
