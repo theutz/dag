@@ -32,6 +32,7 @@ let
     // {
       inherit render; # serious
       nabit = render; # cute
+      of = types.dagOf;
     };
 in
 api
