@@ -27,6 +27,14 @@ in
     expected = "# Hello\nHappy to be here.";
   };
 
+  render.test-lib-as-render = {
+    expr = dag {
+      greeting = dag.entryAnywhere "# Hello";
+      follow-up = dag.entryAfter [ "greeting" ] "Happy to be here.";
+    };
+    expected = "# Hello\nHappy to be here.";
+  };
+
   render.test-separator = {
     expr = dag.render {
       entries = {

@@ -110,6 +110,13 @@ In a README file or script or whatever.
         transform = lib.toUpper; # default is lib.id (no-op)
     };
 }
+
+# or if you are fine with default settings
+
+{ dag, config, ... }:
+{
+    flake.readme = dag config.flake.song;
+}
 ```
 
 #### 3. Enjoy the result! 🌈

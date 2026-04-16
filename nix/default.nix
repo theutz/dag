@@ -1,8 +1,5 @@
 { lib, ... }:
 let
-  dag' = import ./dag.nix { inherit lib; };
-  types = import ./types.nix { inherit lib; };
-
   render =
     {
       entries,
@@ -25,6 +22,11 @@ let
           abort ("Dependency cycle in activation script: " + builtins.toJSON sortedDag);
     in
     renderedDag;
+
+  dag' = (import ./dag.nix { inherit lib; }) // {
+    __functor = _self: entries: render { inherit entries; };
+  };
+  types = import ./types.nix { inherit lib; };
 
   api =
     dag'
