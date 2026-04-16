@@ -1,6 +1,7 @@
 { lib, ... }:
 let
   dag' = import ./dag.nix { inherit lib; };
+  types = import ./types.nix { inherit lib; };
 
   render =
     {
@@ -25,9 +26,12 @@ let
     in
     renderedDag;
 
-  api = dag' // {
-    inherit render; # serious
-    nabit = render; # cute
-  };
+  api =
+    dag'
+    // types
+    // {
+      inherit render; # serious
+      nabit = render; # cute
+    };
 in
 api
