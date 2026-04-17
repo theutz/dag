@@ -26,7 +26,10 @@ let
   dag' = (import ./dag.nix { inherit lib; }) // {
     __functor = _self: entries: render { inherit entries; };
   };
-  types = import ./types.nix { inherit lib; };
+  types = import ./types.nix {
+    inherit lib;
+    dag = dag';
+  };
 
   api =
     dag'

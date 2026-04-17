@@ -1,9 +1,8 @@
-{ lib }:
+{ lib, dag }:
 
 let
   inherit (lib)
     defaultFunctor
-    hm
     mkIf
     mkOrder
     mkOption
@@ -29,10 +28,10 @@ let
       );
       maybeConvert =
         def:
-        if hm.dag.isEntry def.value then
+        if dag.isEntry def.value then
           def.value
         else
-          hm.dag.entryAnywhere (if def ? priority then mkOrder def.priority def.value else def.value);
+          dag.entryAnywhere (if def ? priority then mkOrder def.priority def.value else def.value);
     in
     mkOptionType {
       name = "dagEntryOf";
